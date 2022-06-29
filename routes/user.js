@@ -11,18 +11,26 @@ var userHelper = require('../helpers/user-helpers')
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
+  let user=req.session.user
+  console.log(user)
   productHelper.getAllProducts().then((products=>{
-  res.render('./user/index', { products});
+  res.render('./user/index', { products,user});
 }))});
 
 router.get('/login',(req,res)=>{
-  userHelper.doLogin("abc@gmail.com")
-  res.render('./user/login')
+  if(req.session.loggedIn==true){
+    res.redirect('/')
+  }else{
+    res.render('./user/login')
+  }
+ 
 })
 
 router.post('/login',(req,res)=>{
   userHelper.doLogin(req.body).then((response)=>{
     if(response.status){
+      req.session.loggedIn=true
+      req.session.user=response.user
       
       res.redirect('/')
     }
@@ -44,6 +52,11 @@ router.post('/signup',(req,res)=>{
   userHelpers.doSignUp(req.body).then((response)=>{
     console.log(response)
   })
+})
+
+router.get('/logout',(req,res)=>{
+  req.session.destroy()
+  res.redirect('/')
 })
 
 

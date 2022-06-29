@@ -29,6 +29,7 @@ module.exports = {
                     if(status){
                         console.log("login success")
                         response.user = userData
+                        response.user.name=user.name
                         response.status=true 
                         resolve(response)
 
@@ -46,7 +47,7 @@ module.exports = {
             }
         })
     },
-    // doRedirect():
+    
 }
 
 
