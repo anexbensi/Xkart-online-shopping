@@ -18,10 +18,10 @@ router.get('/', function (req, res, next) {
 }))});
 
 router.get('/login',(req,res)=>{
-  if(req.session.loggedIn==true){
+  if(req.session.loggedIn){
     res.redirect('/')
   }else{
-    res.render('./user/login')
+    res.render('./user/login',{'loginErr':req.session.loginErr})
   }
  
 })
@@ -36,7 +36,7 @@ router.post('/login',(req,res)=>{
     }
     else
     {
-      
+      req.session.loginErr=true
       res.redirect('/login')
 
     }
@@ -46,6 +46,17 @@ router.post('/login',(req,res)=>{
 
 router.get('/signup',(req,res)=>{
   res.render('./user/signup')
+})
+
+router.get('/cart',(req,res)=>{
+  
+  if(req.session.loggedIn){
+    res.render('./user/cart')
+
+  }else{
+    res.redirect('/login')
+  }
+
 })
 
 router.post('/signup',(req,res)=>{

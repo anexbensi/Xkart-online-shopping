@@ -1,8 +1,13 @@
 <section class="mt-4">
 <div class="container">
 <form action="/login" method="post">
+
+  {{#if loginErr}}
+  <label class="form-check-label" for="form2Example31"> Invalid Username or password </label>
+  {{/if}}
   <!-- Email input -->
   <div class="form-outline mb-4">
+
     <input type="email" id="form2Example1" class="form-control" placeholder="Email" name="email" />
     
   </div>

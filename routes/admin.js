@@ -3,6 +3,7 @@ const productHelpers = require('../helpers/product-helpers');
 var router = express.Router();
 var productHelper = require('../helpers/product-helpers')
 
+
 /* GET users listing. */
 router.get('/', function (req, res, next) {
   productHelpers.getAllProducts().then((products=>{
@@ -32,6 +33,17 @@ router.post('/addproducts', (req, res) => {
 
   })
 })
+
+
+router.get('/delete-product/:id',(req,res)=>{
+  let proId = req.params.id
+  productHelper.delProduct(proId).then(()=>{
+    res.redirect('/admin')
+  })
+  
+  
+})
+
 
 
 
