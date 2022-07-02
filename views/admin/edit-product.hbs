@@ -1,0 +1,42 @@
+<section>
+    <div class="container mt-3" style="background-color:rgb(237, 237, 190) ;">
+        <form method="post" enctype="multipart/form-data" action="/admin/editproduct/{{product._id}}">
+            <div class="form-group">
+                <h3 style="text-align: center;">Edit Products</h3>
+                <label for="exampleFormControlInput1">Product name</label>
+                <input type="text" class="form-control" id="exampleFormControlInput1" name="name" value="{{product.name}}">
+
+                <label for="exampleFormControlSelect1">Category</label>
+                <select class="form-control" id="exampleFormControlSelect1" name="category">
+                    <option hidden selected>{{product.category}}</option>
+                    <option>Mobiles</option>
+                    <option>Tablets</option>
+                    <option>Laptops</option>
+                    <option>Watches</option>
+                    <option>VR glasses</option>
+                </select>
+
+                <label for="exampleFormControlInput1">Price</label>
+                <input type="number" class="form-control" id="exampleFormControlInput1" name="price" value="{{product.price}}">
+
+
+
+                <label for="exampleFormControlTextarea1">Product Description</label>
+                <input type="text" class="form-control" id="exampleFormControlTextarea1" rows="3" name="description" value="{{product.description}}">
+
+
+
+                <label for="exampleFormControlFile1">Choose Image</label>
+                <img src="/product-images/{{product._id}}.jpg" alt="aaa" style="width: 100px; height:auto">
+                <input type="file" class="form-control-file" id="image" name="image">
+
+
+                <input class="btn btn-primary" type="submit" value="Submit">
+            </div>
+
+
+
+        </form>
+    </div>
+
+</section>
