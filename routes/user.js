@@ -78,6 +78,7 @@ router.get('/logout',(req,res)=>{
 })
 
 router.get('/add-to-cart/:id',verifyLogin,(req,res)=>{
+  console.log("session is ",req.params.id,"  ",req.session.user)
   userHelpers.addToCart(req.params.id,req.session.user._id).then(()=>{
     res.redirect('/')
   })
