@@ -3,6 +3,8 @@ var collection = require('../config/collections')
 const bcrypt = require('bcrypt')
 const { response } = require('express')
 const { USER_COLLECTION } = require('../config/collections')
+const { ObjectId } = require('mongodb')
+var objectId= require('mongodb').ObjectId
 
 
 
@@ -10,7 +12,9 @@ module.exports = {
     doSignUp: (userData) => {
         return new Promise(async (resolve, reject) => {
             userData.Password = await bcrypt.hash(userData.Password, 10)
-            db.get().collection(collection.USER_COLLECTION).insertOne(userData)
+            db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((response)=>{
+                resolve(response)
+            })
             
             
         })
@@ -47,6 +51,33 @@ module.exports = {
             }
         })
     },
+    addToCart:(proId,userId)=>{
+        return new Promise(async(resolve,reject)=>{
+            let userCart = await db.get().collection(collection.CART_COLLECTION).findOne({user:ObjectId(userId)})
+            if(userCart){
+                db.get().collection(collection.CART_COLLECTION)
+                .updateOne({user:ObjectId(userId)},
+                {
+                        $push:{products:ObjectId(proId)}
+                }
+                ).then((response)=>{
+                    resolve()
+                })
+
+
+            }
+            else{
+                let cartObj={
+                    user:ObjectId(userId),
+                    products:[ObjectId(proId)]
+                }
+                db.get().collection(collection.CART_COLLECTION).insertOne(cartObj).then((response)=>{
+                    resolve(response)
+                })
+            }
+        })
+
+    }
     
 }
 

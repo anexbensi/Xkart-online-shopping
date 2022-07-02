@@ -6,6 +6,14 @@ var productHelper = require('../helpers/product-helpers');
 const userHelpers = require('../helpers/user-helpers');
 var userHelper = require('../helpers/user-helpers')
 
+const verifyLogin = (req,res,next)=>{
+  if(req.session.loggedIn){
+    next()
+  }else{
+    res.redirect('/login')
+  }
+}
+
 
 
 
@@ -48,20 +56,19 @@ router.get('/signup',(req,res)=>{
   res.render('./user/signup')
 })
 
-router.get('/cart',(req,res)=>{
+router.get('/cart',verifyLogin,(req,res)=>{
   
-  if(req.session.loggedIn){
+  
     res.render('./user/cart')
-
-  }else{
-    res.redirect('/login')
-  }
 
 })
 
 router.post('/signup',(req,res)=>{
   userHelpers.doSignUp(req.body).then((response)=>{
-    console.log(response)
+    let name = req.body.name
+    console.log("Name:",response.name)
+    res.render('./user/signupconfirm',{name})
+    
   })
 })
 
@@ -69,6 +76,13 @@ router.get('/logout',(req,res)=>{
   req.session.destroy()
   res.redirect('/')
 })
+
+router.get('/add-to-cart/:id',verifyLogin,(req,res)=>{
+  userHelpers.addToCart(req.params.id,req.session.user._id).then(()=>{
+    res.redirect('/')
+  })
+}
+)
 
 
 
