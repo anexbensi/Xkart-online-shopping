@@ -142,21 +142,27 @@ module.exports = {
             resolve(count)
         })
     },
-    changeProductQuantity:(details)=>{
-        details.count = parseInt(details.count)
-        console.log("in Function:",details.cart,details.product,details.count)
+    changeProductQuantity:(tid,pid,ct)=>{
+        ct=parseInt(ct)
         return new Promise((resolve,reject)=>{
             db.get().collection(collection.CART_COLLECTION)
-            .updateOne({_id:objectId(details.cart), 'products.item':objectId(details.product)},
+            .updateOne({_id:objectId(tid), 'products.item':objectId(pid)},
             {
-                $inc:{'products.$.quantity':details.count}
+                $inc:{'products.$.quantity':ct}
+                
             }
-            ).then(()=>{
-                resolve()
+            ).then((response)=>{
+                resolve(response)
+                
             })
 
         })
-    }
+    },
+    // deleteFromCart:(proId)=>{
+    //     db.get().collection(collection.CART_COLLECTION).remove({'products.item':objectId(proId)}).then(()=>{
+    //         console.log("deleted")
+    //     })
+    // }
 
 }
 
