@@ -1,1 +1,94 @@
-<h2>Cart is empty</h2>
+<style>
+    .img-cart {
+        display: block;
+        max-width: 50px;
+        height: auto;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    table tr td {
+        border: 1px solid #FFFFFF;
+        text-align: center;
+        
+    }
+
+    table tr th {
+        background: #eee;
+        text-align: center;
+        
+    }
+
+    .panel-shadow {
+        box-shadow: rgba(0, 0, 0, 0.3) 7px 7px 7px;
+    }
+    
+
+</style>
+<div class="container bootstrap snippets bootdey">
+    <div class="col-md-12 col-sm-8 content">
+        <div class="row">
+            <div class="col-md-12">
+                <ol class="breadcrumb">
+                    <li>{{user.name}}'s </li>
+                    <li class="active">&nbsp;Cart</li>
+                </ol>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-info panel-shadow">
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Product Image</th>
+                                        <th>Product Name</th>
+                                        
+                                        <th>Qty</th>
+                                        <th>Price</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each products}}
+                                    <tr>
+                                        {{#each this.product}}
+                                        <td><img src="/product-images/{{this._id}}.jpg"
+                                                class="img-cart"></td>
+                                        <td>{{this.name}}</td>
+                                        {{/each}}
+                                        
+                                        <td>
+                                            <form class="form-inline">
+                                                <a href="" class="btn btn-primary">-</a>&nbsp;
+                                                <input type="text" value="{{this.quantity}}" maxlength="2" size="1" class="count"
+                                                    style="border: 2px solid rgb(194, 191, 191);border-radius:5px">&nbsp;
+                                                <a href="" class="btn btn-primary">+</a>&nbsp;
+                                                <a href="" class="btn btn-danger">Remove</a>
+                                                
+                                            </form>
+                                            
+                                        </td>
+                                        
+                                        <td>{{this.price}}</td>
+                                        
+                                        
+                                    </tr>
+
+                                  
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <a href="/" class="btn btn-success"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Continue
+                    Shopping</a>
+                <a href="#" class="btn btn-primary pull-right">Next<span
+                        class="glyphicon glyphicon-chevron-right"></span></a>
+            </div>
+        </div>
+    </div>
+</div>
