@@ -63,7 +63,7 @@ module.exports = {
                 console.log("hey:", proExist)
                 if (proExist != -1) {
                     db.get().collection(collection.CART_COLLECTION)
-                        .updateOne({ 'products.item': objectId(proId) },
+                        .updateOne({user:objectId(userId),'products.item': objectId(proId) },
                             {
                                 $inc: { 'products.$.quantity': 1 }
                             }).then(() => {
@@ -108,7 +108,7 @@ module.exports = {
                 {
                     $project:{
                         item:'$products.item',
-                        quantity:'$products.quantity'
+                        quantity:'$products.quantity',
                     }
                 },
                 {
@@ -117,10 +117,16 @@ module.exports = {
                         localField:'item',
                         foreignField:'_id',
                         as:'product'
+                        
+                        
+                    }
+                },
+                {
+                    $project:{
+                        item:1,quantity:1,product:{$arrayElemAt:['$product',0]}
                     }
                 }
             ]).toArray()
-            console.log(cartItems[0].products)
             resolve(cartItems)
         })
 
@@ -134,6 +140,21 @@ module.exports = {
                 count = cart.products.length
             }
             resolve(count)
+        })
+    },
+    changeProductQuantity:(details)=>{
+        details.count = parseInt(details.count)
+        console.log("in Function:",details.cart,details.product,details.count)
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.CART_COLLECTION)
+            .updateOne({_id:objectId(details.cart), 'products.item':objectId(details.product)},
+            {
+                $inc:{'products.$.quantity':details.count}
+            }
+            ).then(()=>{
+                resolve()
+            })
+
         })
     }
 

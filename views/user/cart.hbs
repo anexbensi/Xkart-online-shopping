@@ -54,25 +54,25 @@
                                 <tbody>
                                     {{#each products}}
                                     <tr>
-                                        {{#each this.product}}
-                                        <td><img src="/product-images/{{this._id}}.jpg"
+                                        
+                                        <td><img src="/product-images/{{this.product._id}}.jpg"
                                                 class="img-cart"></td>
-                                        <td>{{this.name}}</td>
-                                        {{/each}}
+                                        <td>{{this.product.name}}</td>
+                                        
                                         
                                         <td>
                                             <form class="form-inline">
-                                                <a href="" class="btn btn-primary">-</a>&nbsp;
+                                                <a class="btn btn-primary" onclick="changequantity('{{this._id}}','{{this.product._id}}',-1)">-</a>&nbsp;
                                                 <input type="text" value="{{this.quantity}}" maxlength="2" size="1" class="count"
-                                                    style="border: 2px solid rgb(194, 191, 191);border-radius:5px">&nbsp;
-                                                <a href="" class="btn btn-primary">+</a>&nbsp;
-                                                <a href="" class="btn btn-danger">Remove</a>
+                                                    style="border: 2px solid rgb(194, 191, 191);border-radius:5px" disabled>&nbsp;
+                                                <a class="btn btn-primary" onclick="changequantity('{{this._id}}','{{this.product._id}}',1)">+</a>&nbsp;
+                                                <a class="btn btn-danger">Remove</a>
                                                 
                                             </form>
                                             
                                         </td>
                                         
-                                        <td>{{this.price}}</td>
+                                        <td>{{this.product.price}}</td>
                                         
                                         
                                     </tr>
@@ -92,3 +92,20 @@
         </div>
     </div>
 </div>
+
+<script>
+    function changequantity(cartId,proId,count){
+        $.ajax({
+            url:'/change-product-quantity',
+            data:{
+                cart:cartId,
+                product:proId,
+                count:count
+            },
+            method:'post',
+            success:(response)=>{
+                alert(response)
+            }
+        })
+    }
+</script>
