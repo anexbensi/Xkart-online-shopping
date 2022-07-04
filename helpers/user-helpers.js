@@ -142,27 +142,34 @@ module.exports = {
             resolve(count)
         })
     },
-    changeProductQuantity:(tid,pid,ct)=>{
-        ct=parseInt(ct)
-        return new Promise((resolve,reject)=>{
-            db.get().collection(collection.CART_COLLECTION)
-            .updateOne({_id:objectId(tid), 'products.item':objectId(pid)},
-            {
-                $inc:{'products.$.quantity':ct}
-                
-            }
-            ).then((response)=>{
-                resolve(response)
-                
-            })
+    changeProductQuantity:(details)=>{
+        details.count = parseInt(details.count)
+        details.quantity = parseInt(details.quantity)
+        console.log("in Function:",details.cart,details.product,details.count)
 
+        return new Promise((resolve,reject)=>{
+            if(details.count==-1 && details.quantity==1){
+                db.get().collection(collection.CART_COLLECTION)
+                .updateOne({_id:objectId(details.cart)},
+                {
+                    $pull:{products:{item:objectId(details.product)}}
+                }
+                ).then((response)=>{
+                    resolve({removeProduct:true})
+                })
+            }else{
+                db.get().collection(collection.CART_COLLECTION)
+                .updateOne({_id:objectId(details.cart), 'products.item':objectId(details.product)},
+                {
+                    $inc:{'products.$.qauntity':details.count}
+
+                }
+                ).then((response=>{
+                    resolve(true)
+                }))
+            }
         })
-    },
-    // deleteFromCart:(proId)=>{
-    //     db.get().collection(collection.CART_COLLECTION).remove({'products.item':objectId(proId)}).then(()=>{
-    //         console.log("deleted")
-    //     })
-    // }
+    }
 
 }
 

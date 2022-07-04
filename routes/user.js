@@ -90,23 +90,14 @@ router.get('/add-to-cart/:id', verifyLogin, (req, res) => {
 }
 )
 
-router.get('/change-product-quantity/:tid&&:pid&&:ct',(req,res,next)=>{
-  console.log(req.params)
-  userHelpers.changeProductQuantity(req.params.tid,req.params.pid,req.params.ct).then(()=>{
-    res.redirect('/cart')
+router.post('/change-product-quantity',(req,res,next)=>{
+  console.log(req.body)
+  userHelpers.changeProductQuantity(req.body).then((response)=>{
+    res.json(response)
     
   })
-  
 
-} 
-)
-
-// router.get('/delete-product-cart/:id&&:ic',(req,res)=>{
-//   console.log("IDS     : ",req.params.id,req.params.ic)
-//   userHelpers.deleteFromCart(req.params.id)
-//   res.redirect('/cart')
-  
-// })
+} )
 
 
 
