@@ -65,7 +65,7 @@
                                                 <a class="btn btn-primary" onclick="changequantity('{{this._id}}','{{this.product._id}}',-1)">-</a>&nbsp;&nbsp;
                                                 <span id="{{this.product._id}}">{{this.quantity}}</span>&nbsp;&nbsp;
                                                 <a class="btn btn-primary" onclick="changequantity('{{this._id}}','{{this.product._id}}',1)">+</a>&nbsp;
-                                                <a class="btn btn-danger" >Remove</a>
+                                                <a class="btn btn-danger" onclick="removeProduct('{{this._id}}','{{this.product._id}}')" >Remove</a>
                                                 
                                             </form>
                                             
@@ -108,12 +108,32 @@
             method:'post',
             success:(response)=>{
                 if(response.removeProduct){
-                    alert("product removed from cart")
+                    alert("Product removed from cart")
                     location.reload()
                 }else{
                     document.getElementById(proId).innerHTML=quantity+count
+                    location.reload()
                 }
             }
         })
+    }
+    function removeProduct(cartId,proId){
+        if(confirm("Do you want to remove this product from cart")){
+        $.ajax({
+            url:'/remove-product-cart',
+            data:{
+                cart:cartId,
+                product:proId
+            },
+            method:'post',
+            success:(response)=>{
+                if(response.removeProduct){
+                    location.reload()
+                    alert("Product removed")
+                    
+                }
+            }
+        })
+        }
     }
 </script>
