@@ -10,20 +10,18 @@
     table tr td {
         border: 1px solid #FFFFFF;
         text-align: center;
-        
+
     }
 
     table tr th {
         background: #eee;
         text-align: center;
-        
+
     }
 
     .panel-shadow {
         box-shadow: rgba(0, 0, 0, 0.3) 7px 7px 7px;
     }
-    
-
 </style>
 <div class="container bootstrap snippets bootdey">
     <div class="col-md-12 col-sm-8 content">
@@ -45,95 +43,98 @@
                                     <tr>
                                         <th>Product Image</th>
                                         <th>Product Name</th>
-                                        
+
                                         <th>Qty</th>
                                         <th>Price</th>
-                                        
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {{#each products}}
                                     <tr>
-                                        
-                                        <td><img src="/product-images/{{this.product._id}}.jpg"
-                                                class="img-cart"></td>
+
+                                        <td><img src="/product-images/{{this.product._id}}.jpg" class="img-cart"></td>
                                         <td>{{this.product.name}}</td>
-                                        
-                                        
+
+
                                         <td>
                                             <form class="form-inline">
-                                                <a class="btn btn-primary" onclick="changequantity('{{this._id}}','{{this.product._id}}',-1)">-</a>&nbsp;&nbsp;
+                                                <a class="btn btn-primary"
+                                                    onclick="changequantity('{{this._id}}','{{this.product._id}}',-1)">-</a>&nbsp;&nbsp;
                                                 <span id="{{this.product._id}}">{{this.quantity}}</span>&nbsp;&nbsp;
-                                                <a class="btn btn-primary" onclick="changequantity('{{this._id}}','{{this.product._id}}',1)">+</a>&nbsp;
-                                                <a class="btn btn-danger" onclick="removeProduct('{{this._id}}','{{this.product._id}}')" >Remove</a>
-                                                
+                                                <a class="btn btn-primary"
+                                                    onclick="changequantity('{{this._id}}','{{this.product._id}}',1)">+</a>&nbsp;
+                                                <a class="btn btn-danger"
+                                                    onclick="removeProduct('{{this._id}}','{{this.product._id}}')">Remove</a>
+
                                             </form>
-                                            
+
                                         </td>
-                                        
+
                                         <td>{{this.product.price}}&nbsp;x&nbsp;{{this.quantity}}</td>
-                                        
-                                        
+
+
                                     </tr>
 
-                                  
+
                                     {{/each}}
                                 </tbody>
                             </table>
+
+                            <hr>
+                            <h3 class="float-right mt-2 mr-5">Total:</h3>
                         </div>
                     </div>
                 </div>
-                <a href="/" class="btn btn-success"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Continue
-                    Shopping</a>
-                <a href="#" class="btn btn-primary pull-right">Next<span
-                        class="glyphicon glyphicon-chevron-right"></span></a>
+                <a href="/" class="btn btn-primary rounded-0">&nbsp; Back to Shopping</a>
+                <a href="/checkout" class="btn btn-success  float-right pl-5 pr-5 rounded-0">Place Order&nbsp;  </a>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    function changequantity(cartId,proId,count){
-        let quantity=parseInt(document.getElementById(proId).innerHTML)
-        count=parseInt(count)
+    function changequantity(cartId, proId, count) {
+        let quantity = parseInt(document.getElementById(proId).innerHTML)
+        count = parseInt(count)
 
         $.ajax({
-            url:'/change-product-quantity',
-            data:{
-                cart:cartId,
-                product:proId,
-                count:count,
-                quantity:quantity
+            url: '/change-product-quantity',
+            data: {
+                cart: cartId,
+                product: proId,
+                count: count,
+                quantity: quantity
             },
-            method:'post',
-            success:(response)=>{
-                if(response.removeProduct){
+            method: 'post',
+            success: (response) => {
+                if (response.removeProduct) {
                     alert("Product removed from cart")
                     location.reload()
-                }else{
-                    document.getElementById(proId).innerHTML=quantity+count
+                } else {
+                    document.getElementById(proId).innerHTML = quantity + count
                     location.reload()
                 }
             }
         })
     }
-    function removeProduct(cartId,proId){
-        if(confirm("Do you want to remove this product from cart")){
-        $.ajax({
-            url:'/remove-product-cart',
-            data:{
-                cart:cartId,
-                product:proId
-            },
-            method:'post',
-            success:(response)=>{
-                if(response.removeProduct){
-                    location.reload()
-                    alert("Product removed")
-                    
+    function removeProduct(cartId, proId) {
+        if (confirm("Do you want to remove this product from cart")) {
+            $.ajax({
+                url: '/remove-product-cart',
+                data: {
+                    cart: cartId,
+                    product: proId
+                },
+                method: 'post',
+                success: (response) => {
+                    if (response.removeProduct) {
+                        location.reload()
+                        alert("Product removed")
+
+                    }
                 }
-            }
-        })
+            })
         }
     }
 </script>
