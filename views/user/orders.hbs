@@ -1,0 +1,77 @@
+<style>
+    .img-cart {
+        display: block;
+        max-width: 50px;
+        height: auto;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    table tr td {
+        border: 1px solid #FFFFFF;
+        text-align: center;
+
+    }
+
+    table tr th {
+        background: #eee;
+        text-align: center;
+
+    }
+
+    .panel-shadow {
+        box-shadow: rgba(0, 0, 0, 0.3) 7px 7px 7px;
+    }
+</style>
+<div class="container bootstrap snippets bootdey">
+    <div class="col-md-12 col-sm-8 content">
+        <div class="row">
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-info panel-shadow">
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Address</th>
+
+                                        <th>Price</th>
+                                        <th>Payment Status</th>
+                                        <th>Products Purchased </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each products}}
+                                    <tr>
+
+                                        <td>{{this.date}}</td>
+
+                                        <td>{{this.deliveryDetails.name}},{{this.deliveryDetails.address}},
+                                            {{this.deliveryDetails.pincode}},{{this.deliveryDetails.phonenumber}}
+                                        </td>
+                                        
+                                        <td>  
+                                            {{this.total}}
+                                        </td>
+
+                                        <td>{{this.status}}</td>
+
+                                        <td><a href="/view-ordered-products/{{this._id}}" class="btn btn-primary">View products</a></td>
+                                    </tr>
+
+
+                                    {{/each}}
+                                </tbody>
+                            </table>
+
+                            <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
