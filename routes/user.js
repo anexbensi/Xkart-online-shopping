@@ -8,7 +8,7 @@ const userHelpers = require('../helpers/user-helpers');
 var userHelper = require('../helpers/user-helpers')
 
 const verifyLogin = (req, res, next) => {
-  if (req.session.loggedIn) {
+  if (req.session.user.loggedIn) {
     next()
   } else {
     res.redirect('/login')
@@ -32,10 +32,10 @@ router.get('/', async function (req, res, next) {
 });
 
 router.get('/login', (req, res) => {
-  if (req.session.loggedIn) {
+  if (req.session.user) {
     res.redirect('/')
   } else {
-    res.render('./user/login', { 'loginErr': req.session.loginErr })
+    res.render('./user/login', { 'loginErr': req.session.userLoginErr })
   }
 
 })
@@ -43,13 +43,14 @@ router.get('/login', (req, res) => {
 router.post('/login', (req, res) => {
   userHelper.doLogin(req.body).then((response) => {
     if (response.status) {
-      req.session.loggedIn = true
+      
       req.session.user = response.user
+      req.session.user.loggedIn = true
 
       res.redirect('/')
     }
     else {
-      req.session.loginErr = true
+      req.session.userLoginErr = true
       res.redirect('/login')
 
     }
@@ -80,7 +81,7 @@ router.post('/signup', (req, res) => {
 })
 
 router.get('/logout', (req, res) => {
-  req.session.destroy()
+  req.session.user=null
   res.redirect('/')
 })
 
@@ -150,6 +151,17 @@ router.get('/view-ordered-products/:id',verifyLogin,async (req,res)=>{
 
 router.post('/verify-payment',(req,res)=>{
   console.log(req.body);
+  userHelpers.verifyPayment(req.body).then((response)=>{
+    userHelpers.changePaymentStatus(req.body['order[receipt]']).then(()=>{
+      console.log("Payment Successfull");
+      res.json({status:true})
+
+    })
+
+  }).catch((err)=>{
+    console.log(err)
+    res.json({status:false,errMsg:''})
+  })
 })
 
 
