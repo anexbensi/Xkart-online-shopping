@@ -8,7 +8,7 @@ const userHelpers = require('../helpers/user-helpers');
 var userHelper = require('../helpers/user-helpers')
 
 const verifyLogin = (req, res, next) => {
-  if (req.session.user.loggedIn) {
+  if (req.session.user) {
     next()
   } else {
     res.redirect('/login')
