@@ -8,7 +8,7 @@ const userHelpers = require('../helpers/user-helpers');
 var userHelper = require('../helpers/user-helpers')
 
 const verifyLogin = (req, res, next) => {
-  if (req.session.user) {
+  if (req.session.userLoggedIn) {
     next()
   } else {
     res.redirect('/login')
@@ -40,12 +40,15 @@ router.get('/login', (req, res) => {
 
 })
 
+
+
+
 router.post('/login', (req, res) => {
   userHelper.doLogin(req.body).then((response) => {
     if (response.status) {
       
       req.session.user = response.user
-      req.session.user.loggedIn = true
+      req.session.userLoggedIn = true
 
       res.redirect('/')
     }
@@ -82,6 +85,7 @@ router.post('/signup', (req, res) => {
 
 router.get('/logout', (req, res) => {
   req.session.user=null
+  req.session.userLoggedIn = true
   res.redirect('/')
 })
 
@@ -162,6 +166,27 @@ router.post('/verify-payment',(req,res)=>{
     console.log(err)
     res.json({status:false,errMsg:''})
   })
+})
+
+router.get('/adminlogin', (req, res) => {
+  res.render("./admin/login")
+
+})
+router.post('/adminlogin', (req, res) => {
+  console.log("arrived")
+  if(req.body.password=='admin123'){
+    req.session.admin=true
+    res.redirect('/admin')
+  }else{
+    res.render("../views/admin/login",{'loginErr':true})
+  }
+
+})
+router.get('/adminlogout', (req, res) => {
+  req.session.admin=null 
+  res.redirect("/login")
+
+
 })
 
 

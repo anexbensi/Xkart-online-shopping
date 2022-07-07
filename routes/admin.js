@@ -4,6 +4,16 @@ var router = express.Router();
 var productHelper = require('../helpers/product-helpers')
 
 
+// const verifyAdminLogin = (req, res, next) => {
+//   if (req.session.admin) {
+//     next()
+//   } else {
+//     res.redirect('/login')
+//   }
+// }
+
+
+
 /* GET users listing. */
 router.get('/', function (req, res, next) {
   productHelpers.getAllProducts().then((products=>{
@@ -63,6 +73,8 @@ router.post('/editproduct/:id',(req,res)=>{
     }
   })
 })
+
+
 
 
 

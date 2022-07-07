@@ -1,0 +1,36 @@
+<section class="mt-4">
+<div class="container">
+    <div class="row" style="text-align: center;">
+        <h3>Admin Login</h3>
+    </div>
+<form action="/adminlogin" method="post">
+
+  {{#if loginErr}}
+  <label class="form-check-label" for="form2Example31"> Invalid admin password </label>
+  {{/if}}
+  <!-- Email input -->
+  <div class="form-outline mb-4">
+
+    <input type="email" id="form2Example1" class="form-control" placeholder="Superman" name="adminname" disabled/>
+    
+  </div>
+
+  <!-- Password input -->
+  <div class="form-outline mb-4">
+    <input type="password" id="form2Example2" class="form-control" placeholder="Password" name="password" />
+  </div>
+
+  <!-- 2 column grid layout for inline styling -->
+  
+
+    
+
+  <!-- Submit button -->
+  <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+
+  <!-- Register buttons -->
+  
+</form>
+
+</div>
+</section> 
