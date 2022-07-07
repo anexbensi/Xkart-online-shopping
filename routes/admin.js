@@ -4,29 +4,29 @@ var router = express.Router();
 var productHelper = require('../helpers/product-helpers')
 
 
-// const verifyAdminLogin = (req, res, next) => {
-//   if (req.session.admin) {
-//     next()
-//   } else {
-//     res.redirect('/login')
-//   }
-// }
+const verifyAdminLogin = (req, res, next) => {
+  if (req.session.admin) {
+    next()
+  } else {
+    res.render('admin/login')
+  }
+}
 
 
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
+router.get('/',verifyAdminLogin, function (req, res, next) {
   productHelpers.getAllProducts().then((products=>{
     res.render('admin/admin-viewproducts', { products, admin: true })
   }))
   
 });
 
-router.get('/addproducts', function (req, res) {
-  res.render('admin/addproducts')
+router.get('/addproducts',verifyAdminLogin, function (req, res) {
+  res.render('admin/addproducts',{admin: true })
 })
 
-router.post('/addproducts', (req, res) => {
+router.post('/addproducts',verifyAdminLogin, (req, res) => {
   console.log(req.body)
   console.log(req.files.image)
   productHelper.addProduct(req.body, (id) => {
@@ -45,7 +45,7 @@ router.post('/addproducts', (req, res) => {
 })
 
 
-router.get('/delete-product/:id',(req,res)=>{
+router.get('/delete-product/:id',verifyAdminLogin,(req,res)=>{
   
   let proId = req.params.id
   productHelper.delProduct(proId).then(()=>{
@@ -54,15 +54,15 @@ router.get('/delete-product/:id',(req,res)=>{
   
   
 })
-router.get('/edit-product/:id',async(req,res)=>{
+router.get('/edit-product/:id',verifyAdminLogin,async(req,res)=>{
   let product = await productHelper.getProductDetails(req.params.id)
   console.log(product)
-  res.render('admin/edit-product',{product})
+  res.render('admin/edit-product',{ product, admin: true })
   
   
 })
 
-router.post('/editproduct/:id',(req,res)=>{
+router.post('/editproduct/:id',verifyAdminLogin,(req,res)=>{
   productHelper.updateProduct(req.params.id,req.body).then(()=>{
     let id = req.params.id
     res.redirect('/admin')
