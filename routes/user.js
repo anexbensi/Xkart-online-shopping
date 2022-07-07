@@ -211,9 +211,23 @@ router.post('/updateprofile',verifyLogin,async(req, res) => {
     
   })
 
+  
+  
+  
+  })
 
+  router.get('/deleteprofile',verifyLogin, (req, res) => {
+    res.render('./user/deleteaccount',{"user": req.session.user})
+  
+  
+  })
+  router.post('/deleteaccount',verifyLogin,async (req, res) => {
+    userHelpers.deleteAccount(req.session.user._id)
+    res.redirect('/logout')
+    
 
-})
+  })
+
 
 
 module.exports = router;

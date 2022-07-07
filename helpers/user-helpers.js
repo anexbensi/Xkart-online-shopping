@@ -379,6 +379,13 @@ module.exports = {
             })
         })
 
-}
+    },
+    deleteAccount:(userId)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.USER_COLLECTION).deleteOne({_id:objectId(userId)}).then(()=>{
+
+            })
+        })
+    }
 
 }
