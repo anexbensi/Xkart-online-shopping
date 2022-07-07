@@ -353,8 +353,32 @@ module.exports = {
                 resolve()
             })
         })
-    }
+    },
+    getUserDetails:(userId)=>{
+        console.log(userId)
+        return new Promise(async(resolve,reject)=>{
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({_id:objectId(userId)}).then((response)=>{
+                resolve(response)
+            })
+            
+            
+           
+        })
+    },
+    updateProfile:(userId,details)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.USER_COLLECTION)
+            .updateOne({_id:ObjectId(userId)},{
+                $set:{
+                    name:details.name,
+                    email:details.email
+
+                }
+            }).then((response)=>{
+                resolve(response)
+            })
+        })
 
 }
 
-
+}

@@ -84,8 +84,7 @@ router.post('/signup', (req, res) => {
 })
 
 router.get('/logout', (req, res) => {
-  req.session.user=null
-  req.session.userLoggedIn = true
+  req.session.destroy()
   res.redirect('/')
 })
 
@@ -185,6 +184,33 @@ router.post('/adminlogin', (req, res) => {
 router.get('/adminlogout', (req, res) => {
   req.session.admin=null 
   res.redirect("/login")
+
+
+})
+
+
+router.get('/profile',verifyLogin, (req,res)=>{
+  console.log(req.session.user)
+  let user = userHelpers.getUserDetails(req.session.user._id)
+    res.render('./user/profile',{"user": req.session.user})
+  
+
+})
+
+router.get('/editprofile',verifyLogin, (req, res) => {
+  res.render('./user/updateprofile',{"user": req.session.user})
+
+
+})
+
+router.post('/updateprofile',verifyLogin,async(req, res) => {
+  console.log(req.body);
+  let a=await userHelpers.updateProfile(req.session.user._id,req.body).then((response)=>{
+      res.redirect('/logout')
+    
+    
+  })
+
 
 
 })

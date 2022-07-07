@@ -74,6 +74,11 @@ router.post('/editproduct/:id',verifyAdminLogin,(req,res)=>{
   })
 })
 
+router.get('/view-users',verifyAdminLogin, function (req, res) {
+  res.render('./admin/viewusers',{admin: true })
+})
+
+
 
 
 
