@@ -24,8 +24,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileupload())
-app.use(session({secret:'key',cookie:{maxAge:600000}}))
-
+app.use(session({
+    name : 'codeil',
+    secret : 'something',
+    resave :false,
+    saveUninitialized: true,
+    cookie : {
+            maxAge:(1000 * 60 * 100)
+    }      
+}));
 db.connect((err)=>{
   if(err){
     console.log('error detectected')
