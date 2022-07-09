@@ -24,7 +24,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileupload())
-app.use(session({secret:'key',cookie:{maxAge:600000}}))
+app.use(session({cookie:{
+    secure: true,
+    maxAge:60000
+       },
+store: new RedisStore(),
+secret: 'secret',
+saveUninitialized: true,
+resave: false
+                }))
 
 db.connect((err)=>{
   if(err){
