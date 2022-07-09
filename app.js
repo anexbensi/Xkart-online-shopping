@@ -6,7 +6,7 @@ var logger = require('morgan');
 var hbs = require('express-handlebars')
 var fileupload = require('express-fileupload')
 var db = require('./config/connection')
-var session= require('cookie-session')
+var session= require('express-session')
 
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
