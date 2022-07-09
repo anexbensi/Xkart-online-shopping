@@ -6,7 +6,8 @@ var logger = require('morgan');
 var hbs = require('express-handlebars')
 var fileupload = require('express-fileupload')
 var db = require('./config/connection')
-var session= require('cookie-session')
+const session = require('express-session')
+const MemoryStore = require('memorystore')(session)
 
 var userRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
@@ -25,14 +26,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileupload())
 app.use(session({
-    name : 'codeil',
-    secret : 'something',
-    resave :false,
-    saveUninitialized: true,
-    cookie : {
-            maxAge:(1000 * 60 * 100)
-    }      
-}));
+  cookie: { maxAge: 86400000 },
+  store: new MemoryStore({
+    checkPeriod: 86400000 // prune expired entries every 24h
+  }),
+  resave: false,
+  secret: 'keyboard cat'
+}))
 db.connect((err)=>{
   if(err){
     console.log('error detectected')
