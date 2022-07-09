@@ -82,7 +82,7 @@
                             </table>
 
                             <hr>
-                            <h3 class="float-right mt-2 mr-5">Total:{{totalAmount}}</h3>
+                            <h3 class="float-right mt-2 mr-5">Total: Rs<span id="total">{{totalAmount}}</span></h3>
                         </div>
                     </div>
                 </div>
@@ -137,4 +137,12 @@
             })
         }
     }
+    function disableButton(){
+        var a = document.getElementById(total).value
+        if(a==0){
+            document.getElementById().disable=true
+        }else{
+            document.getElementById().disable=false
+        }    
+    }window.onload=disableButton
 </script>
