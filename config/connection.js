@@ -5,7 +5,7 @@ const state={
     db:null
 }
 module.exports.connect=function(done){
-    const url='mongodb+srv://anexbensi:angel@21@cluster0.5vvtb.mongodb.net/?retryWrites=true&w=majority'
+    const url='mongodb://localhost:27017'
     const dbname='xkart'
 
     mongoClient.connect(url,(err,data)=>{
